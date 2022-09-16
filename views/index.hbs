@@ -1,0 +1,22 @@
+    <section>
+        <div class="container mt-5">
+            <div class="row">
+                {{#each workers}}
+                <div class="col-md-3">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="{{this.image}}"
+                            alt="Card image cap" height="200" width="100">
+                        <div class="card-body">
+                            <h2 class="card-title">{{this.name}}</h2>
+                            <h4 class="card-title">{{this.place}}</h4>
+                            <h5 class="card-title">{{this.category}}</h5>
+                            <p class="card-text">{{this.description}}</p>
+                            <a href="#" class="btn btn-primary">Call Now</a>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+
+            </div>
+        </div>
+    </section>
