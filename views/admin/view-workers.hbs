@@ -1,0 +1,29 @@
+<section>
+    <div class="container">
+      <div class="row mt-3">
+        <a href="/admin/add-workers" class="btn btn-success ml-auto">ADD WORKERS</a>
+      </div>
+        <table class="table mt-3">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Place</th>
+      <th scope="col">Category</th>
+      <th scope="col">Description</th>
+      <th scope="col">Image</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each workers}}
+    <tr>
+      <td>{{this.Name}}</td>
+      <td>{{this.Place}}</td>
+      <td>{{this.Category}}</td>
+      <td>{{this.Description}}</td>
+      <td><img src="/worker-images/{{this._id}}.jpg" height="50" width="50" alt=""></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+    </div>
+</section>
