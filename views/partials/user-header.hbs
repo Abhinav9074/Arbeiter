@@ -11,27 +11,29 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/">All Workers<span class="sr-only">(current)</span></a>
                 </li>
+                {{#if user}}
                 <li class="nav-item">
                     <a class="nav-link" href="#">My Bookings</a>
+                    {{/if}}
                 </li>
             </ul>
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle btn btn-success mr-3" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle btn btn-success mr-3" type="button"
+                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{# if user}}
                     {{user.User_Name}}
                     {{else}}
                     My Account
                     {{/if}}
-                    
+
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     {{# if user}}
-                    <a class="dropdown-item" style="color:red;"href="/logout">Logout</a>
+                    <a class="dropdown-item" style="color:red;" href="/logout">Logout</a>
                     {{else}}
                     <a class="dropdown-item" href="/login">Login</a>
                     {{/if}}
-                    
+
                 </div>
             </div>
         </div>

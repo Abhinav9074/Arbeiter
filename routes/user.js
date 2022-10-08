@@ -6,14 +6,18 @@ const session = require('express-session');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   let user=req.session.user
-  console.log(user)
   workerHelpers.getAllWorkers().then((workers)=>{
     res.render('user/view-workers',{admin:false,workers,user})
   })
 });
 
 router.get('/login', function(req, res, next) {
-  res.render('user/login',{admin:false})
+  if(req.session.loggedIn){
+    res.redirect('/')
+  }else{
+  res.render('user/login',{"loginErr":req.session.loginErr})
+  req.session.loginErr=false
+  }
 })
 
 router.get('/signup', function(req, res, next) {
@@ -32,6 +36,7 @@ router.post('/login',(req,res)=>{
       req.session.user=response.user
       res.redirect('/')
     }else{
+      req.session.loginErr="Invalid Email Or Password"
       res.redirect('/login')
     }
   })
