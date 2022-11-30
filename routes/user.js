@@ -3,14 +3,14 @@ var router = express.Router();
 const workerHelpers = require('../helpers/worker-helpers');
 const userHelpers=require('../helpers/user-helpers');
 const session = require('express-session');
-/* GET home page. */
+/* Show Profile Of All Workers */
 router.get('/', function(req, res, next) {
   let user=req.session.user
   workerHelpers.getAllWorkers().then((workers)=>{
-    res.render('user/view-workers',{admin:false,workers,user})
+    res.render('user/view-workers',{admin:false,workerlog:false,userlog:true,workers,user})
   })
 });
-
+/* User Login */
 router.get('/login', function(req, res, next) {
   if(req.session.loggedIn){
     res.redirect('/')
@@ -20,15 +20,6 @@ router.get('/login', function(req, res, next) {
   }
 })
 
-router.get('/signup', function(req, res, next) {
-  res.render('user/signup',{admin:false})
-})
-
-router.post('/signup', function(req, res, next) {
-  userHelpers.doSignup(req.body).then((response)=>{
-    res.redirect('/login')
-  })
-})
 router.post('/login',(req,res)=>{
   userHelpers.doLogin(req.body).then((response)=>{
     if(response.status==true){
@@ -41,8 +32,24 @@ router.post('/login',(req,res)=>{
     }
   })
 })
+
+/* User Signup */
+router.get('/signup', function(req, res, next) {
+  res.render('user/signup',{admin:false})
+})
+
+router.post('/signup', function(req, res, next) {
+  userHelpers.doSignup(req.body).then((response)=>{
+    res.redirect('/login')
+  })
+})
+/* User Log Out */
 router.get('/logout', function(req, res, next) {
   req.session.destroy()
-  res.redirect('/login')
+  res.redirect('/')
+  req.session.loggedIn=false
 })
+
+
+
 module.exports = router;

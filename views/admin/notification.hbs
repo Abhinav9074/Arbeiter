@@ -1,0 +1,26 @@
+<section>
+    <div class="container">
+      <div class="row mt-3">
+      </div>
+      <div class="alert alert-success" role="alert">
+  Application Deleted Successfully
+</div>
+        <table class="table mt-3">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Category</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each workerDetails}}
+    <tr>
+      <td>{{this.workerName}}</td>
+      <td>{{this.category}}</td>
+      <td><a href="/admin/showDetails/{{this._id}}" class="btn btn-primary">VIEW MORE</button></a></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+    </div>
+</section>

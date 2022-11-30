@@ -1,0 +1,20 @@
+<link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+
+<h2 class="ml-5 mt-5">Name : {{workerData.workerName}}</h2>
+<h3 class="ml-5 mt-2">Category : {{workerData.category}}</h3>
+<h3 class="ml-5 mt-2">Mother's Name : {{workerData.motherName}}</h3>
+<h3 class="ml-5 mt-2">Father's Name : {{workerData.fatherName}}</h3>
+<h3 class="ml-5 mt-2">Address : {{workerData.address}}</h3>
+<h3 class="ml-5 mt-2">Gender : {{workerData.gender}}</h3>
+<h3 class="ml-5 mt-2">D.O.B : {{workerData.dob}}</h3>
+<h3 class="ml-5 mt-2">Pincode : {{workerData.pincode}}</h3>
+<h3 class="ml-5 mt-2">Addhaar No. : {{workerData.addhaarNumber}}</h3>
+<h3 class="ml-5 mt-2">Email Address : {{workerData.email}}</h3>
+<h3 class="ml-5 mt-2">Profile Picture :</h3>
+<img src="/workerImages/{{workerData._id}}.jpg" height="200" width="200" alt="" class="ml-5 mt-2"><br>
+<h3 class="ml-5 mt-2">Addhaar Card Image :</h3>
+<img src="/addharImages/{{workerData._id}}.jpg" height="200" width="400" alt="" class="ml-5 mt-2"><br>
+<h3 class="ml-5 mt-2">Qualification Certificate :</h3>
+<img src="/certificateImages/{{workerData._id}}.jpg" height="400" width="400" alt="" class="ml-5 mt-2 mb-5"><br>
+<a href="/admin/delete-workerDetails/{{workerData._id}}" class="ml-5 mb-5 btn btn-danger">REJECT APPLICATION</a>
+<a href="/admin/approve-application/{{workerData._id}}" class=" mb-5 btn btn-success">APPROVE APPLICATION</a>

@@ -17,7 +17,9 @@
 <body>
     {{#if admin}}
     {{>admin-header}}
-    {{else}}
+    {{else if workerlog}}
+    {{>worker-header}}
+    {{else if userlog}}
     {{>user-header}}
     {{/if}}
     {{{body}}}
