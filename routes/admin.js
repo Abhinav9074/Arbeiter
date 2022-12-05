@@ -1,3 +1,4 @@
+const { Router } = require('express');
 var express = require('express');
 const { render } = require('../app');
 const workerHelpers = require('../helpers/worker-helpers');
@@ -5,31 +6,25 @@ var router = express.Router();
 var workerHelper = require('../helpers/worker-helpers');
 const worker_loginHelper = require('../helpers/worker_login-helper');
 const workerLogin = require('../helpers/worker_login-helper');
+const userHelpers=require('../helpers/user-helpers');
+var transporter=require('../helpers/nodeMailer')
 
 /* List All Worker Details */
 router.get('/', function (req, res, next) {
   workerHelpers.getAllWorkers().then((workers) => {
     res.render('admin/view-workers', { workerlog: false, admin: true, userlog: true, workers })
   })
-
 });
+router.get('/workers', function (req, res, next) {
+  workerHelpers.getAllWorkers().then((workers) => {
+    res.render('admin/view-workers', { workerlog: false, admin: true, userlog: true, workers })
+  })
+})
 
-/* Add Worker Feature */
-router.get('/add-workers', function (req, res,) {
-  res.render('admin/add-workers')
-});
-
-router.post('/add-workers', (req, res) => {
-  console.log(req.body);
-  console.log(req.files.Image);
-  workerHelpers.addWorker(req.body, (id) => {
-    let image = req.files.Image
-    image.mv('./public/worker-images/' + id + '.jpg', (err, done) => {
-      if (!err) {
-        res.render("admin/add-workers")
-      }
-    })
-
+/* View All Users */
+router.get('/view-users',(req, res, next) => {
+  userHelpers.getAllUsers().then((users) => {
+    res.render('admin/view-users', { workerlog: false, admin: true, userlog: true, users })
   })
 })
 
@@ -43,7 +38,6 @@ router.get('/notifications', function (req, res, next) {
 
 router.get('/showDetails/:id', async (req, res) => {
   let signupDetails = await workerLogin.getWorkerSignupDetails(req.params.id).then((workerData)=>{
-    console.log(workerData);
     res.render('admin/showDetails',{ workerlog: false, admin: true, userlog: true,workerData})
   })
 })
@@ -55,4 +49,44 @@ router.get('/delete-workerDetails/:id',(req,res) => {
     res.redirect('/admin/notifications')
   })
 })
+/* Worker Application Approval */
+router.get('/approve-application/:id',(req,res) => {
+  var approvedWorker=req.params.id
+  worker_loginHelper.getApprovedWorkerDetails(approvedWorker).then((approvedWorkerData)=>{
+    /*Mail Sender*/
+var mailOptions={
+  from: 'arbeiter2k22@gmail.com',
+  to: approvedWorkerData.email,
+  subject:'Hey Your Application Has Been Approved',
+  text:'Hello '+approvedWorkerData.workerName+' ,your application for worker registration has been approved, please set your login password using  this link  http://localhost:3000/worker/setWorkerPassword . Use this ID to generate the Password :     '+approvedWorkerData._id+   '      thank you'
+}
+
+transporter.sendMail(mailOptions,(err,info)=>{
+  if (err){
+    console.log(err)
+    console.log('Cannot Send E-mail Due To an Error')
+  }else{
+    console.log('Mail sent')
+  }
+  /* Mail sender End */
+})
+    worker_loginHelper.addApprovedWorker(approvedWorkerData).then((data)=>{
+      
+    })
+  })
+  worker_loginHelper.deleteApprovedWorker(approvedWorker).then((deletedWorker)=>{
+    res.redirect('/admin/notifications')
+  })
+
+})
+
+/* Delete Worker Details */
+router.get('/delete-worker-details/:id',(req, res)=>{
+  var deleteId=req.params.id
+  worker_loginHelper.deleteWorkerDetails(deleteId).then((response)=>{
+    res.redirect('/admin')
+  })
+})
+
+
 module.exports = router;

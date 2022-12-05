@@ -13,16 +13,24 @@
                 </li>
             </ul>
 
-
-            <div class="dropdown">  
+            <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle btn btn-success mr-3" type="button"
                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{# if worker}}
+                    {{worker.workerName}}
+                    {{else}}
                     My Account
+                    {{/if}}
 
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
+                    {{# if worker}}
+                    <a class="dropdown-item" style="color:red;" href="/logoutWorker">Logout</a>
+                    {{else}}
                     <a class="dropdown-item" href="/worker/worker-login">Login</a>
+                    {{/if}}
+
 
 
                 </div>

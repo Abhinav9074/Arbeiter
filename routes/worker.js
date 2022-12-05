@@ -7,7 +7,8 @@ const workerLogin=require('../helpers/worker_login-helper');
 const session = require('express-session');
 /* Worker Home Page */
 router.get('/', function(req, res){
-    res.render('worker/home',{admin:false,workerlog:true,userlog:false})
+  let worker=req.session.worker
+    res.render('worker/home',{admin:false,workerlog:true,userlog:false,worker})
 })
 /* Worker Signup Page */
 
@@ -17,7 +18,6 @@ router.get('/', function(req, res){
 
   router.post('/signup', function(req, res, next) {
     workerLogin.doWorkerSignup(req.body).then((id)=>{
-      console.log(req.files.Image)
       let image = req.files.Image
       let image2 = req.files.Image2
       let image3 = req.files.Image3
@@ -28,8 +28,49 @@ router.get('/', function(req, res){
     })
   })
   
-/* Worker Login Page */
+/* Worker Login */
 router.get('/worker-login',function(req, res, next){
-  res.render('worker/worker-login',{admin:false,workerlog:true})
+  if(req.session.loggedIn){
+    res.redirect('/worker')
+  }else{
+  res.render('worker/worker-login',{"loginErr":req.session.loginErr})
+  req.session.loginErr=false
+  }
 })
+
+
+router.post('/worker-login',(req,res)=>{
+  workerLogin.doWorkerLogin(req.body).then((response)=>{
+    if(response.status==true){
+      req.session.loggedIn=true
+      req.session.worker=response.worker
+      res.redirect('/worker')
+    }else{
+      req.session.loginErr="Invalid Email Or Password"
+      res.redirect('/worker/worker-login')
+    }
+  })
+})
+
+
+/* Worker Password Setting */
+router.get('/setWorkerPassword',function(req, res){
+res.render('worker/password',{admin:false,workerlog:true})
+})
+router.post('/setPass',(req,res)=>{
+  var passId= req.body.id
+  var pass= req.body.password
+  workerLogin.setWorkerPassword(passId,pass).then(()=>{
+    res.redirect("worker-login")
+  })
+})
+
+/* Worker Log Out */
+router.get('/logoutWorker', function(req, res, next) {
+  req.session.destroy()
+  res.redirect('/worker/worker-login')
+  req.session.loggedIn=false
+})
+
+
 module.exports =router;

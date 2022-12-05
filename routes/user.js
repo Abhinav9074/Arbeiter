@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 /* User Login */
 router.get('/login', function(req, res, next) {
   if(req.session.loggedIn){
-    res.redirect('/')
+    res.redirect('/user/login')
   }else{
   res.render('user/login',{"loginErr":req.session.loginErr})
   req.session.loginErr=false
@@ -50,6 +50,21 @@ router.get('/logout', function(req, res, next) {
   req.session.loggedIn=false
 })
 
+/* View Worker Profile */
+router.get('/worker-profile/:id',(req,res)=>{
+  let workerId=req.params.id
+  userHelpers.displayWorkerDetails(workerId).then((dispDetails)=>{
+    res.render('user/worker-profile',{admin:false,workerlog:false,userlog:true,dispDetails})
+  })
+})
 
+/* Worker Details Sorting */
+router.post('/sort',(req,res)=>{
+  var category=req.body.category
+  var place=req.body.place
+  userHelpers.sortWorkerDetails(category,place).then((workers)=>{
+    res.render('user/view-workers',{admin:false,workerlog:false,userlog:true,workers})
+  })
+})
 
 module.exports = router;

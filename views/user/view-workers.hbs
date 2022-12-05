@@ -1,3 +1,4 @@
+
 <section>
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -31,26 +32,114 @@
     </div>
 </section>
 
+<div class="container mt-5">
+<form action="/sort" method="post">
 
+                    
+                      <div class="form-outline flex-fill mb-0">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-control" name="category" id="category">
+                          <option>computer technician</option>
+                          <option>construction worker</option>
+                          <option>electritian</option>
+                          <option>household cleaner</option>
+                          <option>interior works</option>
+                          <option>kitchen service</option>
+                          <option>lawn service</option>
+                          <option>mason</option>
+                          <option>mechanic</option>
+                          <option>painter</option>
+                          <option>plumber</option>
+                          <option>wood cutter</option>
+                        </select>
+                        
+                        <label for="category" class="form-label">Place</label>
+                        <select class="form-control" name="place" id="category">
+                          <option>Kakkavayal</option>
+                          <option>Kalpetta</option>
+                          <option>Lakkidi</option>
+                          <option>Mananthavadi</option>
+                          <option>Meenangadi</option>
+                          <option>Meppadi</option>
+                          <option>Muttil</option>
+                          <option>Panamaram</option>
+                          <option>Pulpally</option>
+                          <option>Sulthan Bathery</option>
+                          <option>Vythiri</option>
+                        </select>
+                        
+
+                        <button type="submit" class="btn btn-success mt-2">Sort</button>
+                      </div>
+                    </div>
+
+</form>
+</div>
 <section>
+
     <div class="container mt-5">
         <div class="row">
             {{#each workers}}
-            <div class="col-md-3 p-3">
-                <div class="card" style="width: 15rem; height : 27rem;">
-                    <img class="card-img-top" src="/worker-images/{{this._id}}.jpg" alt="Card image cap"
-                        style="height: 10rem;">
-                    <div class="card-body">
-                        <h2 class="card-title">{{this.Name}}</h2>
-                        <h4 class="card-title">{{this.Place}}</h4>
-                        <h5 class="card-title">{{this.Category}}</h5>
-                        <p class="card-text">{{this.Description}}</p>
-                        <a href="#" class="btn btn-primary">Call Now</a>
-                    </div>
-                </div>
-            </div>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+   
+}
+
+.title {
+  color: grey;
+  font-size: 18px;
+}
+
+
+button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+a {
+  text-decoration: none;
+  font-size: 22px;
+  color: black;
+}
+
+button:hover, a:hover {
+  opacity: 0.7;
+}
+</style>
+</head>
+<body></body>
+
+<div class="card mt-5">
+  <a href="/worker-profile/{{this._id}}">
+                        <img class="card-img-top" src="/workerImages/{{this._id}}.jpg" alt="Card image cap"
+                            style="height: 10rem;"></a>
+  <h3 class="mt-2">{{this.workerName}}</h3>
+  <p class="title">|  {{this.category}}  |</p>
+  
+  <p><button>Contact</button></p>
+</div>
             {{/each}}
 
         </div>
     </div>
+
 </section>
+
+
+
+
+

@@ -1,7 +1,10 @@
 var db = require('../config/connection')
 var collection = require('../config/collections')
 const bcrypt = require('bcrypt')
+var objectId=require('mongodb').ObjectId
 module.exports = {
+
+    /* USER SIGNUP */
     doSignup: (userData) => {
         return new Promise(async (resolve, reject) => {
             userData.Password = await bcrypt.hash(userData.Password, 10)
@@ -12,6 +15,7 @@ module.exports = {
         })
 
     },
+    /* USER LOGIN */
     doLogin: (userData) => {
         return new Promise(async (resolve, reject) => {
             let loginStatus = false
@@ -34,6 +38,28 @@ module.exports = {
                 resolve({status:false})
 
             }
+        })
+    },
+    /* USER VIEWER FUNCTION FOR ADMIN */
+    getAllUsers:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let users=await db.get().collection(collection.USER_COLLECTION).find().toArray()
+            resolve(users)
+        })
+    },
+    /* Worker Details Viewer For User */
+    displayWorkerDetails:(workerId)=>{
+        return new Promise(async(resolve,reject)=>{
+            let dispDetails=await db.get().collection(collection.APPROVED_WORKER_COLLECTION).findOne({_id:objectId(workerId)}).then((dispDetails)=>{
+                resolve(dispDetails)
+            })
+        })
+    },
+    /* Worker Info Sorting*/
+    sortWorkerDetails:(category,place)=>{
+        return new Promise(async(resolve,reject)=>{
+            let sortData=await db.get().collection(collection.APPROVED_WORKER_COLLECTION).find({ "category": category }&&{ "place": place }).toArray()
+            resolve(sortData)
         })
     }
 }
