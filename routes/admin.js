@@ -11,7 +11,7 @@ var transporter=require('../helpers/nodeMailer')
 
 /* List All Worker Details */
 router.get('/', function (req, res, next) {
-  workerHelpers.getAllWorkers().then((workers) => {
+  workerHelpers.getAllWorkersAdmin().then((workers) => {
     res.render('admin/view-workers', { workerlog: false, admin: true, userlog: true, workers })
   })
 });

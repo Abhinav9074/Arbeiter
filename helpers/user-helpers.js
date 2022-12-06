@@ -58,7 +58,9 @@ module.exports = {
     /* Worker Info Sorting*/
     sortWorkerDetails:(category,place)=>{
         return new Promise(async(resolve,reject)=>{
-            let sortData=await db.get().collection(collection.APPROVED_WORKER_COLLECTION).find({ "category": category }&&{ "place": place }).toArray()
+            console.log("category is"+category)
+            console.log("place is"+place)
+            let sortData=await db.get().collection(collection.APPROVED_WORKER_COLLECTION).find({ "category": category,"place": place ,"activeStatus": "Active"}).toArray()
             resolve(sortData)
         })
     }

@@ -11,6 +11,7 @@
       <th scope="col">Address</th>
       <th scope="col">Category</th>
       <th scope="col">Email</th>
+      <th>Status</th>
       <th scope="col">Image</th>
     </tr>
   </thead>
@@ -21,9 +22,10 @@
       <td>{{this.address}}</td>
       <td>{{this.category}}</td>
       <td>{{this.email}}</td>
+      <td>{{this.activeStatus}}</td>
       <td><img src="/workerImages/{{this._id}}.jpg" height="50" width="50" alt=""></td>
       <td><a href="#" class="btn btn-warning">EDIT</a></td>
-      <td><a href="/admin/delete-worker-details/{{this._id}}" class="btn btn-danger">DELETE</a></td>
+      <td><a href="/admin/delete-worker-details/{{this._id}}" class="btn btn-danger" onclick="return confirm('Do you want to delete the Profile of {{this.workerName}}?')">DELETE</a></td>
     </tr>
     {{/each}}
   </tbody>

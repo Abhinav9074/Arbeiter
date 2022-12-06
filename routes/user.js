@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 /* User Login */
 router.get('/login', function(req, res, next) {
   if(req.session.loggedIn){
-    res.redirect('/user/login')
+    res.redirect('user/login')
   }else{
   res.render('user/login',{"loginErr":req.session.loginErr})
   req.session.loginErr=false

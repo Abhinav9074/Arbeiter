@@ -68,9 +68,24 @@ router.post('/setPass',(req,res)=>{
 /* Worker Log Out */
 router.get('/logoutWorker', function(req, res, next) {
   req.session.destroy()
-  res.redirect('/worker/worker-login')
+  res.redirect('worker-login')
   req.session.loggedIn=false
 })
-
-
+/* Worker Profile View by Worker */
+router.get('/workerAccount/:id',(req,res)=>{
+  var wId=req.params.id
+  userHelpers.displayWorkerDetails(wId).then((worker)=>{
+    res.render('worker/worker-profile',{worker})
+  })
+})
+/* Worker Active Status Updater */
+router.post('/activeStatus/:id',(req,res)=>{
+  var updateId=req.params.id
+  var activeData=req.body.activeStatus
+  workerHelpers.updateActiveStatus(updateId,activeData).then((updatedData)=>{
+    userHelpers.displayWorkerDetails(updateId).then((worker)=>{
+      res.render('worker/worker-profile',{worker})
+    })
+  })
+})
 module.exports =router;
