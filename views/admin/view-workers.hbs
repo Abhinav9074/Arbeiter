@@ -1,4 +1,3 @@
-
 <section>
     <div class="container">
       <div class="row mt-3">
@@ -24,7 +23,7 @@
       <td>{{this.email}}</td>
       <td>{{this.activeStatus}}</td>
       <td><img src="/workerImages/{{this._id}}.jpg" height="50" width="50" alt=""></td>
-      <td><a href="#" class="btn btn-warning">EDIT</a></td>
+      <td><a href="/admin/worker-edit/{{this._id}}" class="btn btn-warning">EDIT</a></td>
       <td><a href="/admin/delete-worker-details/{{this._id}}" class="btn btn-danger" onclick="return confirm('Do you want to delete the Profile of {{this.workerName}}?')">DELETE</a></td>
     </tr>
     {{/each}}

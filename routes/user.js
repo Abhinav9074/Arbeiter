@@ -3,17 +3,19 @@ var router = express.Router();
 const workerHelpers = require('../helpers/worker-helpers');
 const userHelpers=require('../helpers/user-helpers');
 const session = require('express-session');
+var transporter=require('../helpers/nodeMailer')
 /* Show Profile Of All Workers */
 router.get('/', function(req, res, next) {
   let user=req.session.user
   workerHelpers.getAllWorkers().then((workers)=>{
+    console.log(workers)
     res.render('user/view-workers',{admin:false,workerlog:false,userlog:true,workers,user})
   })
 });
 /* User Login */
 router.get('/login', function(req, res, next) {
   if(req.session.loggedIn){
-    res.redirect('user/login')
+    res.render('user/login',{admin:false,workerlog:false,userlog:true})
   }else{
   res.render('user/login',{"loginErr":req.session.loginErr})
   req.session.loginErr=false
@@ -40,7 +42,7 @@ router.get('/signup', function(req, res, next) {
 
 router.post('/signup', function(req, res, next) {
   userHelpers.doSignup(req.body).then((response)=>{
-    res.redirect('/login')
+  res.redirect('/login')
   })
 })
 /* User Log Out */
@@ -60,11 +62,13 @@ router.get('/worker-profile/:id',(req,res)=>{
 
 /* Worker Details Sorting */
 router.post('/sort',(req,res)=>{
+ 
   var category=req.body.category
   var place=req.body.place
   userHelpers.sortWorkerDetails(category,place).then((workers)=>{
     res.render('user/view-workers',{admin:false,workerlog:false,userlog:true,workers})
   })
 })
+
 
 module.exports = router;

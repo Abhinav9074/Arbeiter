@@ -134,16 +134,13 @@
         <h3 class="mt-2">{{this.workerName}}</h3>
         <h5 class="title">| {{this.category}} |</h5>
         <p class="title"> {{this.place}} </p>
-        {{/each}}
-        {{#if user}}
+        
         <a href="/worker/contact/{{this._id}}">
           <p><button>Contact</button></p>
-        </a>
-        {{else}}
-        <a href="/login">
-          <p><button>Contact</button></p>
-        </a>
-        {{/if}}
+       
+        
+        {{/each}}
+        
       </div>
 
 

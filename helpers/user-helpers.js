@@ -7,22 +7,29 @@ module.exports = {
     /* USER SIGNUP */
     doSignup: (userData) => {
         return new Promise(async (resolve, reject) => {
-            userData.Password = await bcrypt.hash(userData.Password, 10)
+            userData.password=await bcrypt.hash(userData.password, 10)
             db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
                 resolve(data.insertedId)
             })
-
         })
 
     },
+    /* Find User By Email*/
+    findUser :(emailData)=>{
+        return new Promise(async(resolve, reject) => {
+            db.get().collection(collection.APPROVED_WORKER_COLLECTION).findOne({email:emailData}).then((email)=>{
+                resolve(email)
+            })
+        })
+    },
     /* USER LOGIN */
-    doLogin: (userData) => {
+    doLogin: (loginData) => {
         return new Promise(async (resolve, reject) => {
             let loginStatus = false
             let response = {}
-            let user=await db.get().collection(collection.USER_COLLECTION).findOne({Email:userData.Email})
+            let user=await db.get().collection(collection.USER_COLLECTION).findOne({Email:loginData.Email})
             if (user) {
-                bcrypt.compare(userData.Password,user.Password).then((status) => {
+                bcrypt.compare(loginData.Password,user.password).then((status) => {
                     if (status) {
                         console.log("login-success");
                         response.user=user

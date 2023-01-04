@@ -15,9 +15,9 @@ router.get('/', function (req, res, next) {
     res.render('admin/view-workers', { workerlog: false, admin: true, userlog: true, workers })
   })
 });
-router.get('/workers', function (req, res, next) {
+router.get('/view-workers', function (req, res, next) {
   workerHelpers.getAllWorkers().then((workers) => {
-    res.render('admin/view-workers', { workerlog: false, admin: true, userlog: true, workers })
+    res.redirect('/admin')
   })
 })
 
@@ -85,6 +85,14 @@ router.get('/delete-worker-details/:id',(req, res)=>{
   var deleteId=req.params.id
   worker_loginHelper.deleteWorkerDetails(deleteId).then((response)=>{
     res.redirect('/admin')
+  })
+})
+
+/* Edit Worker Details*/
+router.get('/admin/worker-edit/:id',(req, res)=>{
+  var workersId = req.params.id
+  userHelpers.displayWorkerDetails(workersId).then((worker) => {
+    res.render('/admin/worker-edit', {worker})
   })
 })
 
