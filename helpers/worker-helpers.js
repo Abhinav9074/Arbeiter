@@ -32,6 +32,21 @@ module.exports = {
                     console.log(updatedData)
                 })
         })
+    },
+
+
+    /*Worker Work Scheduler */
+    workScheduler : (scheduledData)=>{
+        return new Promise((resolve, reject) => {
+
+            let response = {}
+            let info= db.get().collection(collection.WORK_SCHEDULE).findOne({workerId:scheduledData.workerId})
+            
+            db.get().collection(collection.WORK_SCHEDULE).insertOne(scheduledData).then((data)=>{
+                resolve(data.insertedId)
+            })
+        })
+
     }
 
 
