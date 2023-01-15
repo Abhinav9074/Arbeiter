@@ -13,12 +13,23 @@
                 </li>
                 {{#if user}}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">My Bookings</a>
-                    {{/if}}
+                    <div class="dropdown mt-2 ml-4">
+                        <button class="btn btn-secondary dropdown-toggle btn btn-primary " type="button"
+                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     Bookings
+                     </button>
+                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" class="nav-link" href="/myBookings/{{user._id}}">Pending Bookings</a>
+                        <a class="dropdown-item" class="nav-link"<a class="nav-link" href="/ongoingBookings/{{user._id}}">Ongoing Bookings</a>
+                     </div>
+                    </div>
+                   
                 </li>
+                
+                {{/if}}
             </ul>
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle btn btn-success mr-3" type="button"
+                <button class="btn btn-secondary dropdown-toggle btn btn-success " type="button"
                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{# if user}}
                     {{user.User_Name}}

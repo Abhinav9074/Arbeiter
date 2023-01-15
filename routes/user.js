@@ -8,7 +8,8 @@ var transporter=require('../helpers/nodeMailer')
 router.get('/', function(req, res, next) {
   let user=req.session.user
   workerHelpers.getAllWorkers().then((workers)=>{
-    console.log(workers)
+    
+    
     res.render('user/view-workers',{admin:false,workerlog:false,userlog:true,workers,user})
   })
 });
@@ -27,7 +28,17 @@ router.post('/login',(req,res)=>{
     if(response.status==true){
       req.session.loggedIn=true
       req.session.user=response.user
-      res.redirect('/')
+      var userData=req.session.user
+      workerHelpers.getAllWorkers().then((workers)=>{
+        let user=req.session.user
+        userHelpers.getUser(user._id).then((users)=>{
+          res.render('user/view-workers',{admin:false,workerlog:false,userlog:true,workers,users,user})
+          console.log("data is")
+          console.log(users)
+        })
+        
+      })
+      
     }else{
       req.session.loginErr="Invalid Email Or Password"
       res.redirect('/login')
@@ -56,7 +67,7 @@ router.get('/logout', function(req, res, next) {
 router.get('/worker-profile/:id',(req,res)=>{
   let workerId=req.params.id
   userHelpers.displayWorkerDetails(workerId).then((dispDetails)=>{
-    res.render('user/worker-profile',{admin:false,workerlog:false,userlog:true,dispDetails})
+    res.render('user/worker-profile',{dispDetails,user:req.session.user,userlog:true})
   })
 })
 
@@ -70,5 +81,42 @@ router.post('/sort',(req,res)=>{
   })
 })
 
+/* Contact Worker */
+router.get('/contact/:id',(req,res)=>{
+  var cId=req.params.id
+  var userId=req.body.userId
+  userHelpers.displayWorkerDetails(cId).then((conDetails)=>{
+    res.render('user/workerContact',{conDetails,userId,user:req.session.user,admin:false,workerlog:false,userlog:true})
+  })
+})
+
+router.post('/contactWorker',(req,res)=>{
+  userHelpers.contactWorker(req.body).then((data)=>{
+    res.redirect('/submit')
+  })
+
+})
+
+router.get('/submit',(req,res)=>{
+  res.render('user/submitted',{admin:false,workerlog:false,userlog:true,user:req.session.user})
+})
+
+/* Show All Bookings */
+
+router.get('/myBookings/:Id',(req,res)=>{
+  userHelpers.getWorkerId(req.params.Id).then((response)=>{
+    if(response.found==true){
+      userHelpers.getBookingInfo(response.bookingData.workerId).then((bookedData)=>{
+        res.render('user/myBookings',{bookedData})
+        console.log(response.bookingData.workerId)
+        console.log(bookedData)
+      })
+    }else{
+      res.render('user/empty-message',{admin:false,workerlog:false,userlog:true,user:req.session.user})
+    }
+  
+  })
+  
+})
 
 module.exports = router;

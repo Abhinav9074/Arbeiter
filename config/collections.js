@@ -1,7 +1,6 @@
 module.exports={
-    WORKER_COLLECTION:'worker',
     USER_COLLECTION:'user',
-    WORKER_DETAILS_COLLECTION:'workerDetails',
     APPROVED_WORKER_COLLECTION:'approvedWorkers',
-    WORK_SCHEDULE: 'workSchedule'
+    WORKER_CONTACT_COLLECTION:'contactworker',
+    WORKER_DETAILS_COLLECTION:'worker'
 }

@@ -1,5 +1,9 @@
-<section>
-  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+
+{{! start of form and slide HTML code }}
+
+
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
       <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
       <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -76,75 +80,118 @@
 </div>
 
 </form>
-</div>
-<section>
-
-  <div class="container mt-5 mb-5">
-    <div class="row">
-      {{#each workers}}
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-      <style>
-        .card {
-          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-          max-width: 300px;
-          margin: auto;
-          text-align: center;
-          font-family: arial;
-
-        }
-
-        .title {
-          color: grey;
-          font-size: 18px;
-        }
 
 
-        button {
-          border: none;
-          outline: 0;
-          display: inline-block;
-          padding: 8px;
-          color: white;
-          background-color: #000;
-          text-align: center;
-          cursor: pointer;
-          width: 100%;
-          font-size: 18px;
-        }
 
-        a {
-          text-decoration: none;
-          font-size: 22px;
-          color: black;
-        }
 
-        button:hover,
-        a:hover {
-          opacity: 0.7;
-        }
-      </style>
-      </head>
 
-      <body></body>
 
-      <div class="card mt-5">
-        <a href="/worker-profile/{{this._id}}">
-          <img class="card-img-top" src="/workerImages/{{this._id}}.jpg" alt="Card image cap"
-            style="height: 10rem;"></a>
-        <h3 class="mt-2">{{this.workerName}}</h3>
-        <h5 class="title">| {{this.category}} |</h5>
-        <p class="title"> {{this.place}} </p>
-        
-        <a href="/worker/contact/{{this._id}}">
-          <p><button>Contact</button></p>
-       
-        
+<body>
+  <div class="py-5">
+    <div class="container">
+      <div class="row hidden-md-up">
+
+
+
+        {{#each workers}}
+
+        <div class="col-md-2">
+          <a href="/worker-profile/{{this._id}}">
+          <div class="card profile-card">
+            <img src="/workerImages/{{this._id}}.jpg" class="img-fluid img-profile" alt="Card image">
+            </a>
+            <div class="card-block text-xs-center">
+              <p class="h4 card-title font-weight-bold">{{this.workerName}}</p>
+              <p class="h6 card-subtitle ">{{this.category}}</p><br>
+              <p class="h6 card-subtitle text-muted">{{this.place}}</p>
+            </div>
+
+          </div>
+        </div> &nbsp; &nbsp; &nbsp; &nbsp;
+
         {{/each}}
-        
+
       </div>
-
-
     </div>
   </div>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+  <script src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
 
-</section>
+
+  <style>
+    @import "https://fonts.googleapis.com/css?family=Muli";
+
+    * {
+      font-family: "Muli", sans-serif;
+    }
+
+    .card.profile-card {
+      box-shadow: 0px 0px 20px #DFDFDF;
+      border: none;
+      border-radius: 0;
+      height:300px;
+      width:180px;
+    }
+
+    input.fab {
+      display: flex;
+    }
+
+    figure {
+      overflow: hidden;
+    }
+
+    .img-profile {
+      -webkit-clip-path: circle(52% at 70% 38%);
+      -moz-clip-path: circle(52% at 70% 38%);
+      clip-path: circle(52% at 70% 38%);
+      transform: translatez(0);
+      transition: all .3s linear;
+    }
+
+    .img-profile:hover {
+      -webkit-clip-path: circle(30% at 50% 50%);
+      clip-path: circle(30% at 50% 50%);
+      transform: scale(1.07) rotate(-5deg) translatez(0)
+    }
+
+    .profile-card .fab+.toggle {
+      top: 63%;
+      z-index: 10;
+      right: 0;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      font-size: 60px;
+      line-height: 50px;
+      text-align: center;
+      border-radius: 50%;
+      position: absolute;
+      color: #fff;
+      background: #F44336;
+      -webkit-user-select: none;
+      box-shadow: 0 4px 4px #666;
+      transition: all 0.3s ease-in-out 0s;
+    }
+
+    .fab:checked+.toggle {
+      color: #fff;
+      background: #F44336;
+      transform: rotate(135deg);
+      box-shadow: 2px -2px 4px #333;
+      transition: all 0.3s ease-in-out 0s;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      
+    }
+    .p{
+      padding: 3px;
+    }
+  </style>
+</body>

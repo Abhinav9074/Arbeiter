@@ -32,13 +32,13 @@ router.get('/view-users',(req, res, next) => {
 
 router.get('/notifications', function (req, res, next) {
   workerLogin.getWorkerDetaials().then((workerDetails) => {
-    res.render('admin/notification', { workerlog: false, admin: true, userlog: true, workerDetails })
+    res.render('admin/notification', { workerlog: false, admin: true, userlog: false, workerDetails })
   })
 })
 
 router.get('/showDetails/:id', async (req, res) => {
   let signupDetails = await workerLogin.getWorkerSignupDetails(req.params.id).then((workerData)=>{
-    res.render('admin/showDetails',{ workerlog: false, admin: true, userlog: true,workerData})
+    res.render('admin/showDetails',{ workerlog: false, admin: true, userlog: false,workerData})
   })
 })
 

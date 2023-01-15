@@ -1,0 +1,10 @@
+<link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+{{#each contactDetails}}
+<h2 class="ml-5 mt-5">Name : {{this.name}}</h2>
+<h3 class="ml-5 mt-2">Address : {{this.address}}</h3>
+<h3 class="ml-5 mt-2">Pincode : {{this.pincode}}</h3>
+<h3 class="ml-5 mt-2">Email Address : {{this.email}}</h3>
+<h3 class="ml-5 mt-2">Phone : {{this.phone}}</h3>
+<a href="/worker/reject-bookingDetails/{{this.userId}}" class="ml-5 mb-5 btn btn-danger" onclick="return confirm('Do you want to Reject the Booking of {{this.name}}?')">REJECT BOOKING</a>
+<a href="/worker/accept-bookingDetails/{{this.userId}}" class=" mb-5 btn btn-success" onclick="return confirm('Do you want to Accept the Booking of {{this.name}}?')">ACCEPT BOOKING</a>
+{{/each}}

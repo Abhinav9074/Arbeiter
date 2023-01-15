@@ -7,7 +7,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let workers = await db.get().collection(collection.APPROVED_WORKER_COLLECTION).find({ "activeStatus": "Active" }).toArray()
             resolve(workers)
-            console.log(workers)
+            
         })
     },
     /* Pass all worker details to admin page */
@@ -29,25 +29,61 @@ module.exports = {
                     }
                 }).then((updatedData) => {
                     resolve(updatedData)
-                    console.log(updatedData)
                 })
         })
     },
-
-
-    /*Worker Work Scheduler */
-    workScheduler : (scheduledData)=>{
+    /* Update the current status of Worker */
+    updateCurrentStatus: (currentId, currentData) => {
         return new Promise((resolve, reject) => {
-
-            let response = {}
-            let info= db.get().collection(collection.WORK_SCHEDULE).findOne({workerId:scheduledData.workerId})
-            
-            db.get().collection(collection.WORK_SCHEDULE).insertOne(scheduledData).then((data)=>{
-                resolve(data.insertedId)
-            })
+            db.get().collection(collection.APPROVED_WORKER_COLLECTION)
+                .updateOne({ _id: objectId(currentId) }, {
+                    $set: {
+                        currentStatus: currentData
+                    }
+                }).then((updatedCurrentData) => {
+                    resolve(updatedCurrentData)
+                })
         })
+    },
+    /* Get Work Notification  */
 
-    }
+   getWorkNotification:(notiId)=>{
+    return new Promise(async(resolve, reject) =>{
+        let notification = await db.get().collection(collection.WORKER_CONTACT_COLLECTION).find({ "workerId": notiId }).toArray()
+        resolve(notification)
 
+    })
+   },
+   /* Worker notification details viewer */
+   getWorkNotificationDetails:(contactId)=>{
+    return new Promise(async(resolve, reject) =>{
+        let contactDetails = await db.get().collection(collection.WORKER_CONTACT_COLLECTION).find({ "userId": contactId }).toArray()
+        resolve(contactDetails)
 
+    })
+   },
+
+   /* Worker Booking Rejection*/
+   rejectBooking:(rejectId)=>{
+    return new Promise((resolve,reject)=>{
+        db.get().collection(collection.WORKER_CONTACT_COLLECTION).findOneAndDelete({"userId":rejectId}).then((response)=>{
+            resolve(response)
+        })
+   })
+   },
+
+   /* Set Current Status To Busy */
+   updateCurrentStatusToBusy:(upId)=>{
+    return new Promise((resolve,reject)=>{
+        let upData=null
+        db.get().collection(collection.APPROVED_WORKER_COLLECTION)
+        .updateOne({ _id: upId }, {
+            $set: {
+                currentStatus:upData
+            }
+        }).then((updatedCurrentData) => {
+            resolve(updatedCurrentData)
+        })
+    })
+   }
 }

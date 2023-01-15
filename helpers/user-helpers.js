@@ -1,6 +1,7 @@
 var db = require('../config/connection')
 var collection = require('../config/collections')
 const bcrypt = require('bcrypt')
+const { response } = require('../app')
 var objectId=require('mongodb').ObjectId
 module.exports = {
 
@@ -35,6 +36,7 @@ module.exports = {
                         response.user=user
                         response.status=true
                         resolve(response)
+                        
                     } else {
                         console.log("login-failed");
                         resolve({status:false})
@@ -70,5 +72,54 @@ module.exports = {
             let sortData=await db.get().collection(collection.APPROVED_WORKER_COLLECTION).find({ "category": category,"place": place ,"activeStatus": "Active"}).toArray()
             resolve(sortData)
         })
+    },
+
+
+
+
+    /*Worker Contact */
+    contactWorker:(contactData)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.WORKER_CONTACT_COLLECTION).insertOne(contactData).then((data) => {
+                resolve(data.insertedId)
+            })
+        })
+    },
+    /* Get User By Id */
+    getUser:(userId)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collection.USER_COLLECTION).findOne(userId).then((SelUserData)=>{
+                resolve(SelUserData)
+            })
+        })
+    },
+
+    /* worker Id getting function*/
+    getWorkerId:(Id)=>{
+        let response={}
+        let found 
+        return new Promise(async(resolve,reject)=>{
+            let bookingData =await db.get().collection(collection.WORKER_CONTACT_COLLECTION).findOne({"userId":Id},{ projection:{_id:0,workerId:1}})
+            if(bookingData){
+                response.bookingData=bookingData
+                response.found=true
+                resolve(response)
+            }else{
+                response.found=false
+                resolve(response)
+            }
+           
+        })
+
+    },
+
+    /*display the booked worker data in user page*/
+    getBookingInfo:(bookId)=>{
+        return new Promise(async(resolve,reject)=>{
+       let WorkerData = await db.get().collection(collection.APPROVED_WORKER_COLLECTION).findOne({_id:objectId(bookId)})
+        resolve(WorkerData)
+       
+       
+    })
     }
 }

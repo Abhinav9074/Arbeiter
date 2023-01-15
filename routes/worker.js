@@ -30,7 +30,7 @@ router.post('/signup', function (req, res, next) {
 
 /* Worker Login */
 router.get('/worker-login', function (req, res, next) {
-  if (req.session.loggedIn) {
+  if (req.session.WloggedIn) {
     res.render('/worker/worker-login')
   } else {
     res.render('worker/worker-login', { "loginErr": req.session.loginErr })
@@ -42,7 +42,7 @@ router.get('/worker-login', function (req, res, next) {
 router.post('/worker-login', (req, res) => {
   workerLogin.doWorkerLogin(req.body).then((response) => {
     if (response.status == true) {
-      req.session.loggedIn = true
+      req.session.WloggedIn = true
       req.session.worker = response.worker
       res.redirect('/worker')
     } else {
@@ -73,74 +73,9 @@ router.get('/logoutWorker', function (req, res, next) {
 })
 /* Worker Profile View by Worker */
 router.get('/workerAccount/:id', (req, res) => {
-
-
-/* Date updating Function */
-var myDate = new Date(),
-day = myDate.getDate();
-var day2 = day
-var limit = 31
-add = 1
-if (day2 + add > limit) {
-day2 = (day2 + add) - limit
-} else {
-day2 = day2 + add
-}
-
-var day3 = day
-var limit = 31
-add1 = 2
-if (day3 + add1 > limit) {
-day3 = (day3 + add1) - limit
-} else {
-day3 = day3 + add1
-}
-
-
-var day4 = day
-var limit = 31
-add2 = 3
-if (day4 + add2 > limit) {
-day4 = (day4 + add2) - limit
-} else {
-day4 = day4 + add2
-}
-
-
-var day5 = day
-var limit = 31
-add3 = 4
-if (day5 + add3 > limit) {
-day5 = (day5 + add3) - limit
-} else {
-day5 = day5 + add3
-}
-
-
-var day6 = day
-var limit = 31
-add4 = 5
-if (day6 + add4 > limit) {
-day6 = (day6 + add4) - limit
-} else {
-day6 = day6 + add4
-}
-
-var day7 = day
-var limit = 31
-add5 = 6
-if (day7 + add5 > limit) {
-day7 = (day7 + add5) - limit
-} else {
-day7 = day7 + add5
-}
-
-/* Date Updating Function End */
-
-
   var wId = req.params.id
   userHelpers.displayWorkerDetails(wId).then((worker) => {
-    res.render('worker/worker-profile', { worker,day,day2,day3,day4,day5,day6,day7})
+    res.render('worker/worker-profile', { worker,admin: false, workerlog: true, userlog: false, worker:req.session.worker})
   })
 })
 /* Worker Active Status Updater */
@@ -154,14 +89,50 @@ router.post('/activeStatus/:id', (req, res) => {
   })
 })
 
-/* Worker Work Scheduler */
-router.post('/schedule',(req, res) => {
-  var applyStatus=true;
-  workerHelpers.workScheduler(req.body).then((response)=>{
-    aStatus=response.applyStatus
-    userHelpers.displayWorkerDetails(req.body.workerId).then((worker) => {
-      res.render('worker/worker-profile', { worker ,aStatus})
+
+/* Worker Current Status Updater */
+router.post('/currentStatus/:id', (req, res) => {
+  var currentId = req.params.id
+  var currentData = req.body.currentStatus
+  workerHelpers.updateCurrentStatus(currentId, currentData).then((updatedCurrentData) => {
+    userHelpers.displayWorkerDetails(currentId).then((worker) => {
+      res.render('worker/worker-profile', { worker })
     })
+  })
+})
+
+/*Work Notification Viewer */
+router.get('/workNotificationViewer/:id',(req, res) => {
+  workerHelpers.getWorkNotification(req.params.id).then((workNotification)=>{
+    res.render('worker/workNotification',{workNotification})
+  })
+  
+})
+
+
+/* Work Notification Details Viewer */
+router.get('/showDetails/:Id',(req,res)=>{
+  workerHelpers.getWorkNotificationDetails(req.params.Id).then((contactDetails)=>{
+    res.render('worker/showContactDetails',{contactDetails})
+    console.log('details are')
+    
+  })
+})
+
+
+/* Reject booking details*/
+router.get('/reject-bookingDetails/:Id',(req,res)=>{
+  workerHelpers.rejectBooking(req.params.Id).then((rejectDetails)=>{
+    res.redirect('/worker')
+  })
+})
+
+
+/* Accept Booking Details */
+router.get('/accept-bookingDetails/:Id',(req,res)=>{
+  workerHelpers.updateCurrentStatusToBusy(req.params.Id).then((upDetails)=>{
+    console.log(upDetails)
+    res.redirect('/worker')
   })
 })
 
