@@ -119,4 +119,13 @@ router.get('/myBookings/:Id',(req,res)=>{
   
 })
 
+/*show accepted bookings*/
+
+router.get('/ongoingBookings/:Id',(req, res)=>{
+  userHelpers.getConfirmedInfo(req.params.Id).then((confirmData)=>{
+    res.render('user/ongoingBooking',{confirmData,admin:false,workerlog:false,userlog:true,user:req.session.user})
+  })
+  
+})
+
 module.exports = router;

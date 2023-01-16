@@ -8,7 +8,7 @@ const session = require('express-session');
 /* Worker Home Page */
 router.get('/', function (req, res) {
   let worker = req.session.worker
-    res.render('worker/home', { admin: false, workerlog: true, userlog: false, worker})
+  res.render('worker/home', { admin: false, workerlog: true, userlog: false, worker })
 })
 /* Worker Signup Page */
 
@@ -75,7 +75,7 @@ router.get('/logoutWorker', function (req, res, next) {
 router.get('/workerAccount/:id', (req, res) => {
   var wId = req.params.id
   userHelpers.displayWorkerDetails(wId).then((worker) => {
-    res.render('worker/worker-profile', { worker,admin: false, workerlog: true, userlog: false, worker:req.session.worker})
+    res.render('worker/worker-profile', { worker, admin: false, workerlog: true, userlog: false, worker: req.session.worker })
   })
 })
 /* Worker Active Status Updater */
@@ -84,7 +84,7 @@ router.post('/activeStatus/:id', (req, res) => {
   var activeData = req.body.activeStatus
   workerHelpers.updateActiveStatus(updateId, activeData).then((updatedData) => {
     userHelpers.displayWorkerDetails(updateId).then((worker) => {
-      res.render('worker/worker-profile', { worker })
+      res.render('worker/worker-profile', { worker, admin: false, workerlog: true, userlog: false, worker: req.session.worker })
     })
   })
 })
@@ -102,36 +102,52 @@ router.post('/currentStatus/:id', (req, res) => {
 })
 
 /*Work Notification Viewer */
-router.get('/workNotificationViewer/:id',(req, res) => {
-  workerHelpers.getWorkNotification(req.params.id).then((workNotification)=>{
-    res.render('worker/workNotification',{workNotification})
+router.get('/workNotificationViewer/:id', (req, res) => {
+  workerHelpers.getWorkNotification(req.params.id).then((workNotification) => {
+    res.render('worker/workNotification', { workNotification })
   })
-  
+
 })
 
 
 /* Work Notification Details Viewer */
-router.get('/showDetails/:Id',(req,res)=>{
-  workerHelpers.getWorkNotificationDetails(req.params.Id).then((contactDetails)=>{
-    res.render('worker/showContactDetails',{contactDetails})
+router.get('/showDetails/:Id', (req, res) => {
+  workerHelpers.getWorkNotificationDetails(req.params.Id).then((contactDetails) => {
+    res.render('worker/showContactDetails', { contactDetails, worker: req.session.worker, admin: false, workerlog: true, userlog: false })
     console.log('details are')
-    
+
   })
 })
 
 
 /* Reject booking details*/
-router.get('/reject-bookingDetails/:Id',(req,res)=>{
-  workerHelpers.rejectBooking(req.params.Id).then((rejectDetails)=>{
+router.get('/reject-bookingDetails/:Id', (req, res) => {
+  workerHelpers.rejectBooking(req.params.Id).then((rejectDetails) => {
     res.redirect('/worker')
   })
 })
 
 
 /* Accept Booking Details */
-router.get('/accept-bookingDetails/:Id',(req,res)=>{
-  workerHelpers.updateCurrentStatusToBusy(req.params.Id).then((upDetails)=>{
-    console.log(upDetails)
+router.post('/accept-bookingDetails/:Id', (req, res) => {
+  /* current status set to busy */
+  workerHelpers.updateCurrentStatusToBusy(req.body.workerId).then((upDetails) => {
+    /*take data from user and worker using their ID*/
+    workerHelpers.getSpecificWorkerDetails(req.body.workerId).then((specificWorkerData) => {
+      workerHelpers.getSpecificUserDetails(req.params.Id).then((specificUserData) => {
+        /* add details of both user and worker to a single collection */
+        workerHelpers.mergeData(specificWorkerData).then((mergedData) => {
+          workerHelpers.updateMergeData(specificUserData, mergedData).then((mergedData2) => {
+            /* add user and worker ID to the bookings collection */
+            workerHelpers.addId(mergedData, req.params.Id, req.body.workerId).then((updateId) => {
+              /* delete the notification data */
+              workerHelpers.deleteContactData(req.params.Id).then((deleteData) => {
+              })
+            })
+          })
+        })
+      })
+    })
     res.redirect('/worker')
   })
 })

@@ -75,14 +75,75 @@ module.exports = {
    /* Set Current Status To Busy */
    updateCurrentStatusToBusy:(upId)=>{
     return new Promise((resolve,reject)=>{
-        let upData=null
         db.get().collection(collection.APPROVED_WORKER_COLLECTION)
-        .updateOne({ _id: upId }, {
+        .updateOne({ _id: objectId(upId) }, {
             $set: {
-                currentStatus:upData
+                currentStatus:null
             }
         }).then((updatedCurrentData) => {
             resolve(updatedCurrentData)
+        })
+    })
+   },
+   /* get worker details for booking confirmation */
+   getSpecificWorkerDetails:(specId)=>{
+    return new Promise(async(resolve,reject)=>{
+        let specificWorkerData= await db.get().collection(collection.APPROVED_WORKER_COLLECTION).findOne({"_id" : objectId(specId)},{ projection:{_id:0,workerName:1,workerPincode:1,workerPhone:1,category:1,workerPlace:1,}})
+        console.log(specificWorkerData)
+        resolve(specificWorkerData)
+    })
+   },
+
+   /* get user details for booking confirmation */
+
+   getSpecificUserDetails:(speuId)=>{
+    return new Promise(async(resolve,reject)=>{
+        let specificUserData= await db.get().collection(collection.USER_COLLECTION).findOne({"_id":objectId(speuId)},{projection:{_id:0,User_Name:1,Email:1}})
+        resolve(specificUserData)
+    })
+   },
+   /* merge the user and worker data */
+   mergeData:(specUserData)=>{
+    return new Promise((resolve,reject)=>{
+        db.get().collection(collection.CONFIRMED_BOOKING_COLLECTION).insertOne(specUserData).then((data)=>{
+            resolve(data.insertedId)
+        })
+    })
+   },
+   /* add the user data with worker data */
+   updateMergeData:(specUserData,speDataId)=>{
+    return new Promise((resolve,reject)=>{
+        db.get().collection(collection.CONFIRMED_BOOKING_COLLECTION).updateOne({"_id":objectId(speDataId)}, {
+            $set: {
+              User_Name :specUserData.User_Name,
+              Email:specUserData.Email
+            }
+        }).then((specUpData)=>{
+            resolve(specUpData)
+        })
+    })
+   },
+
+   /*delete worker notification data*/
+   deleteContactData:(deleteId)=>{
+    console.log(deleteId)
+    return new Promise((resolve,reject)=>{
+        db.get().collection(collection.WORKER_CONTACT_COLLECTION).findOneAndDelete({"userId":deleteId}).then((deletData)=>{
+            resolve(deletData)
+        })
+    })
+   },
+   /* add user and worker id to bookings collection */
+   addId:(mergeId,userId,workerId)=>{
+    return new Promise((resolve,reject)=>{
+        db.get().collection(collection.CONFIRMED_BOOKING_COLLECTION).updateOne({"_id":objectId(mergeId)}, {
+            $set: {
+              userId :userId,
+              workerId:workerId,
+              status:"ongoing"
+            }
+        }).then((updatedId)=>{
+            resolve(updatedId)
         })
     })
    }

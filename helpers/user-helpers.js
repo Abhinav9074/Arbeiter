@@ -121,5 +121,13 @@ module.exports = {
        
        
     })
+    },
+    /*display the confirmed booking data*/
+    getConfirmedInfo:(conId)=>{
+        console.log(conId)
+        return new Promise(async(resolve,reject)=>{
+            let ConfirmedData= await db.get().collection(collection.CONFIRMED_BOOKING_COLLECTION).findOne({"userId":conId})
+            resolve(ConfirmedData)
+        })
     }
 }

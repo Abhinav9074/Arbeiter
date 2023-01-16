@@ -56,9 +56,9 @@ router.get('/approve-application/:id',(req,res) => {
     /*Mail Sender*/
 var mailOptions={
   from: 'arbeiter2k22@gmail.com',
-  to: approvedWorkerData.email,
+  to: approvedWorkerData.workerEmail,
   subject:'Hey Your Application Has Been Approved',
-  text:'Hello '+approvedWorkerData.workerName+' ,your application for worker registration has been approved, please set your login password using  this link  http://localhost:3000/worker/setWorkerPassword . Use this ID to generate the Password :     '+approvedWorkerData._id+   '      thank you'
+  text:'Hello '+approvedWorkerData.workerName+' ,your application for worker registration has been approved, please set your login password using  this link  http://localhost:3000/worker/setWorkerPassword/ . Use this ID to generate the Password :     '+approvedWorkerData._id+   '      thank you'
 }
 
 transporter.sendMail(mailOptions,(err,info)=>{

@@ -82,7 +82,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let loginStatus = false
             let response = {}
-            let worker=await db.get().collection(collection.APPROVED_WORKER_COLLECTION).findOne({email:loginData.email})
+            let worker=await db.get().collection(collection.APPROVED_WORKER_COLLECTION).findOne({workerEmail:loginData.email})
             if (worker) {
                 bcrypt.compare(loginData.password,worker.workerPassword).then((status) => {
                     if (status) {
