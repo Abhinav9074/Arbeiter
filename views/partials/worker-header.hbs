@@ -10,8 +10,23 @@
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item">
                     {{#if worker}}
-                    <a class="nav-link" href="/worker/workNotificationViewer/{{worker._id}}">Work Notifications</a>
-                    {{/if}}
+                    <a class="nav-link mt-1" href="/worker/workNotificationViewer/{{worker._id}}">Work Notifications</a>
+                <li class="nav-item">
+                    <div class="dropdown mt-2 ml-4">
+                        <button class="btn btn-secondary dropdown-toggle btn btn-primary " type="button"
+                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Works
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" class="nav-link" <a class="nav-link"
+                                href="/worker/ongoingWork/{{worker._id}}">Ongoing Works</a>
+                        </div>
+                    </div>
+
+                </li>
+
+
+                {{/if}}
                 </li>
             </ul>
 
@@ -32,11 +47,11 @@
                     <a class="dropdown-item" style="color:red;" href="/worker/logoutWorker">Logout</a>
                     <a class="dropdown-item" href="/worker/workerAccount/{{worker._id}}">My Account</a>
                     {{else}}
-                    <a class="dropdown-item" href="worker/worker-login">Login</a>
+                    <a class="dropdown-item" href="/worker/worker-login">Login</a>
                     {{/if}}
 
 
-                    
+
                 </div>
             </div>
 

@@ -129,5 +129,38 @@ module.exports = {
             let ConfirmedData= await db.get().collection(collection.CONFIRMED_BOOKING_COLLECTION).findOne({"userId":conId})
             resolve(ConfirmedData)
         })
+    },
+    /*get Tracking Info*/
+    getTrackInfo:(trackId)=>{
+        return new Promise(async(resolve,reject)=>{
+            let trackData= await db.get().collection(collection.CONFIRMED_BOOKING_COLLECTION).findOne({"_id":objectId(trackId)})
+            resolve(trackData)
+        })
+    },
+    /* user authentication of work completion*/
+    authenticateWorkCompletion:(authId)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collection.CONFIRMED_BOOKING_COLLECTION).updateOne({"_id": objectId(authId)}, {
+                $set: {
+
+                    userAuth: "true"
+
+                }
+            }).then((comData)=>{
+                resolve(comData)
+        })
+        })
+    },
+    /* Change Worker Current Status */
+    changeCurrentStatus:(statusId)=>{
+        return new Promise(async(resolve,reject)=>{
+            db.get().collection(collection.APPROVED_WORKER_COLLECTION).updateOne({"_id": objectId(statusId)}, {
+                $set: {
+
+                    currentStatus: "free"
+
+                }
+            })
+        })
     }
 }

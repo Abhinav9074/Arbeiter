@@ -21,6 +21,9 @@
       <td>{{confirmData.category}}</td>
       <td>{{confirmData.workerPlace}}</td>
       <td>{{confirmData.status}}</td>
+      {{#if confirmData.status}}
+      <td><a  href="/bookingDetails/{{confirmData._id}}">View More</a></td>
+      {{/if}}
     </tr>
     
   </tbody>

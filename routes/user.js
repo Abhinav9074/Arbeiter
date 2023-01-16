@@ -128,4 +128,26 @@ router.get('/ongoingBookings/:Id',(req, res)=>{
   
 })
 
+/*show detailed info of accepted booking*/
+router.get('/bookingDetails/:Id',(req, res)=>{
+  userHelpers.getTrackInfo(req.params.Id).then((trackData)=>{
+    res.render('user/bookingDetails',{trackData,admin:false,workerlog:false,userlog:true,user:req.session.user})
+  })
+  
+})
+
+/*user submitting work completion*/
+router.get('/userAuth/:Id',(req, res)=>{
+  userHelpers.authenticateWorkCompletion(req.params.Id).then((authData)=>{
+    userHelpers.getTrackInfo(req.params.Id).then((trackData)=>{
+      userHelpers.changeCurrentStatus(trackData.workerId).then((upStatus)=>{
+        
+      })
+    })
+    userHelpers.getTrackInfo(req.params.Id).then((trackData)=>{
+      res.render('user/bookingDetails',{trackData,admin:false,workerlog:false,userlog:true,user:req.session.user})
+    })
+  })
+})
+
 module.exports = router;

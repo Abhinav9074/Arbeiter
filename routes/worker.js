@@ -54,14 +54,15 @@ router.post('/worker-login', (req, res) => {
 
 
 /* Worker Password Setting */
-router.get('/setWorkerPassword', function (req, res) {
-  res.render('worker/password', { admin: false, workerlog: true })
+router.get('/setWorkerPassword/:Id', function (req, res) {
+  id = req.params.Id
+  res.render('worker/password', { admin: false, workerlog: true, id })
 })
-router.post('/setPass', (req, res) => {
-  var passId = req.body.id
+router.post('/setPass/:Id', (req, res) => {
+  var passId = req.params.Id
   var pass = req.body.password
   workerLogin.setWorkerPassword(passId, pass).then(() => {
-    res.redirect("worker-login")
+    res.render("worker/worker-login")
   })
 })
 
@@ -138,8 +139,12 @@ router.post('/accept-bookingDetails/:Id', (req, res) => {
         /* add details of both user and worker to a single collection */
         workerHelpers.mergeData(specificWorkerData).then((mergedData) => {
           workerHelpers.updateMergeData(specificUserData, mergedData).then((mergedData2) => {
-            /* add user and worker ID to the bookings collection */
-            workerHelpers.addId(mergedData, req.params.Id, req.body.workerId).then((updateId) => {
+
+            /* get address and phone from contact details */
+            workerHelpers.getAddressAndPhone(req.params.Id).then((addressAndPhone) => {
+              /* add user and worker ID to the bookings collection */
+              workerHelpers.addId(mergedData, req.params.Id, req.body.workerId,addressAndPhone).then((updateId) => {
+              })
               /* delete the notification data */
               workerHelpers.deleteContactData(req.params.Id).then((deleteData) => {
               })
@@ -149,6 +154,41 @@ router.post('/accept-bookingDetails/:Id', (req, res) => {
       })
     })
     res.redirect('/worker')
+  })
+})
+
+
+/*display ongoing works*/
+router.get('/ongoingWork/:Id', (req, res) => {
+  workerHelpers.getConfirmedWorkInfo(req.params.Id).then((confirmData) => {
+    res.render('worker/ongoingWorks', { confirmData, worker: req.session.worker, admin: false, workerlog: true, userlog: false })
+  })
+
+})
+
+
+/*display more details about ongoing works*/
+router.get('/workDetails/:Id',(req, res) => {
+  userHelpers.getTrackInfo(req.params.Id).then((trackData)=>{
+    console.log(trackData)
+    res.render('worker/workDetails', {trackData, worker: req.session.worker, admin: false, workerlog: true, userlog: false })
+  })
+  
+})
+
+/* update worker location status */
+router.post('/changeTrackData/:Id',(req, res) => {
+  workerHelpers.updateWorkerLocation(req.params.Id,req.body.status).then((upDta)=>{
+    userHelpers.getTrackInfo(req.params.Id).then((trackData)=>{
+      res.render('worker/workDetails', {trackData, worker: req.session.worker, admin: false, workerlog: true, userlog: false })
+    })
+  })
+})
+
+/* Work Completd From Workers side */
+router.get('/workCompleted/:Id',(req, res)=>{
+  workerHelpers.workCompleted(req.params.Id).then((completedWork)=>{
+    res.render('worker/wait',{worker: req.session.worker, admin: false, workerlog: true, userlog: false})
   })
 })
 
