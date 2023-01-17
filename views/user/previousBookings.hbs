@@ -1,0 +1,30 @@
+<section>
+    <div class="container">
+      <div class="row mt-3">
+      </div>
+      <div class="alert alert-success" role="alert">
+  All The completed Bookings Will Be Displayed Here 
+</div>
+        <table class="table mt-3">
+  <thead>
+    <tr>
+      <th scope="col">Worker Name</th>
+      <th scope="col">Category</th>
+      <th scope="col">Place</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each prevData}}
+    <tr>
+ 
+      <td>{{this.workerName}}</td>
+      <td>{{this.category}}</td>
+      <td>{{this.workerPlace}}</td>
+      <td><a href="/showPreviousBooking/{{this.userId}}">View More</a></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+    </div>
+</section>

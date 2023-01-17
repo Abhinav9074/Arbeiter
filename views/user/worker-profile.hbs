@@ -67,6 +67,19 @@
   
 </section>
 
+<section>
+  
+  <h4>Customer Reviews</h4>
+  {{#each reviews}}
+  <div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h3>{{this.userName}}</h4>
+    <p class="card-text">{{this.review}}</p>
+  </div>
+</div>
+{{/each}}
+</section>
+
 
 <style>
     .gradient-custom {
@@ -82,5 +95,11 @@ background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 1
 h5{
   color: red;
   font-size: 15px;
+}
+h4{
+  padding-left: 10px;
+}
+.card{
+  padding-left: 10px;
 }
 </style>

@@ -29,8 +29,23 @@
         </div>
     </article>
 </div>
-
-
+{{#if trackData.userAuth}}
+<section>
+    <form action="/reviewSubmit/{{trackData._id}}" method="post">
+    <h5>Write a review To appreciate our Worker</h5>
+    <input class="box" type="textarea" name="review"><br>
+    <button class="btn btn-success">Submit</button>
+    <input  type="hidden" value="{{trackData.User_Name}}" name="userName"><br>
+    <input  type="hidden" value="{{trackData.workerName}}" name="workerName"><br>
+    <input  type="hidden" value="{{trackData.workerId}}" name="workerId"><br>
+    <input  type="hidden" value="{{trackData.userId}}" name="userId"><br>
+    <input  type="hidden" value="{{trackData.day}}" name="day"><br>
+    <input  type="hidden" value="{{trackData.month}}" name="month"><br>
+    <input  type="hidden" value="{{trackData.year}}" name="year"><br>
+    
+    </form>
+</section>
+{{/if}}
 
 {{#if trackData.userAuth}}
 <style>
@@ -188,6 +203,19 @@
         border-color: #ff2b00;
         border-radius: 1px
     }
+    .box{
+        margin-left: 200px;
+        margin-bottom: 200px;;
+        width: 600px;
+        height: 150px;
+    }
+    h5{
+        margin-left: 200px;
+    }
+    .btn{
+        margin-top: px;
+        margin-left: 200px;
+    }
 </style>
 {{else}}
 <style>
@@ -199,7 +227,7 @@
     }
 
     .container {
-        margin-top: 50px;
+        margin-top:0px;
         margin-bottom: 50px
     }
 

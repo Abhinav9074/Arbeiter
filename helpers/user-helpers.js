@@ -162,5 +162,46 @@ module.exports = {
                 }
             })
         })
+    },
+    /* submit review */
+    reviewSubmit:(revData)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.USER_REVIEW).insertOne(revData).then((reviewData)=>{
+                resolve(reviewData)
+            })
+        })
+    },
+
+    /* save all booking info for further refrence */
+    saveBookingInfo:(saveData)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.COMPLETED_WORK_COLLECTION).insertOne(saveData).then((savedInfo)=>{
+                resolve(savedInfo)
+            })
+        })
+    },
+    /* delete booking info from ongoing collection */
+    deleteBookingInfo:(delId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.CONFIRMED_BOOKING_COLLECTION).findOneAndDelete({_id:objectId(delId)}).then((deletedId)=>{
+                resolve(deletedId)
+            })
+        })
+    },
+    /*display all  reviews*/
+    findAllReviews:(workerId)=>{
+        console.log(workerId)
+        return new Promise((resolve,reject)=>{
+            var reviews = db.get().collection(collection.USER_REVIEW).find({"workerId": workerId}).toArray()
+            resolve(reviews)
+        })
+    },
+    /*display previous bookings*/
+    findPreviousBookings:(preId)=>{
+        return new Promise(async(resolve,reject)=>{
+            var prevData =await db.get().collection(collection.COMPLETED_WORK_COLLECTION).find({"userId":preId}).toArray()
+            resolve(prevData)
+            console.log(preId)
+        })
     }
 }

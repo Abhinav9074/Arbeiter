@@ -3,5 +3,7 @@ module.exports={
     APPROVED_WORKER_COLLECTION:'approvedWorkers',
     WORKER_CONTACT_COLLECTION:'contactworker',
     WORKER_DETAILS_COLLECTION:'worker',
-    CONFIRMED_BOOKING_COLLECTION:'bookings'
+    CONFIRMED_BOOKING_COLLECTION:'bookings',
+    USER_REVIEW:'userReview',
+    COMPLETED_WORK_COLLECTION:'completedWorks'
 }

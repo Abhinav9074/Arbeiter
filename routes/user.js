@@ -32,7 +32,7 @@ router.post('/login',(req,res)=>{
       workerHelpers.getAllWorkers().then((workers)=>{
         let user=req.session.user
         userHelpers.getUser(user._id).then((users)=>{
-          res.render('user/view-workers',{admin:false,workerlog:false,userlog:true,workers,users,user})
+          res.render('user/view-workers',{admin:false,workerlog:false,userlog:true,workers,users,user:req.session.user})
           console.log("data is")
           console.log(users)
         })
@@ -67,7 +67,11 @@ router.get('/logout', function(req, res, next) {
 router.get('/worker-profile/:id',(req,res)=>{
   let workerId=req.params.id
   userHelpers.displayWorkerDetails(workerId).then((dispDetails)=>{
-    res.render('user/worker-profile',{dispDetails,user:req.session.user,userlog:true})
+    userHelpers.findAllReviews(workerId).then((reviews)=>{
+      console.log(reviews)
+      res.render('user/worker-profile',{dispDetails,user:req.session.user,userlog:true,reviews})
+    })
+    
   })
 })
 
@@ -149,5 +153,35 @@ router.get('/userAuth/:Id',(req, res)=>{
     })
   })
 })
+
+/*review submission*/
+router.post('/reviewSubmit/:Id',(req, res)=>{
+  userHelpers.reviewSubmit(req.body).then((reviewData)=>{
+    /* get work info and save it to another collection for further refrence */
+    userHelpers.getTrackInfo(req.params.Id).then((trackData)=>{
+      userHelpers.saveBookingInfo(trackData).then((savedData)=>{
+        userHelpers.deleteBookingInfo(req.params.Id).then((deletedData)=>{
+          res.redirect('/')
+        })
+      })
+    })
+  })
+})
+
+/* show previous bookings */
+router.get('/previousBookings/:Id',(req, res)=>{
+  userHelpers.findPreviousBookings(req.params.Id).then((prevData)=>{
+    res.render('user/previousBookings',{admin:false,workerlog:false,userlog:true,user:req.session.user,prevData})
+  })
+})
+/* show previous booking details */
+router.get('/showPreviousBooking/:Id',(req, res)=>{
+  userHelpers.findPreviousBookings(req.params.Id).then((sPrevData)=>{
+    console.log(sPrevData)
+    res.render('user/previousBookingDetails',{admin:false,workerlog:false,userlog:true,user:req.session.user,sPrevData})
+  })
+})
+
+
 
 module.exports = router;
