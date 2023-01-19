@@ -210,5 +210,18 @@ module.exports = {
                 resolve(comData)
         })
         })
+    },
+    /* show reports in admin page */
+    diplayAllCompletedWorks:()=>{
+        return new Promise(async(resolve,reject)=>{
+           let completedWorks= await db.get().collection(collection.COMPLETED_WORK_COLLECTION).find().toArray()
+            resolve(completedWorks)
+        })
+    },
+    diplayAllCompletedWorksWithId:(reportId)=>{
+        return new Promise(async(resolve,reject)=>{
+            let foundReports= await db.get().collection(collection.COMPLETED_WORK_COLLECTION).findOne({'_id':objectId(reportId)})
+            resolve(foundReports)
+        })
     }
 }

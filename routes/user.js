@@ -69,7 +69,7 @@ router.get('/worker-profile/:id',(req,res)=>{
   userHelpers.displayWorkerDetails(workerId).then((dispDetails)=>{
     userHelpers.findAllReviews(workerId).then((reviews)=>{
       console.log(reviews)
-      res.render('user/worker-profile',{dispDetails,user:req.session.user,userlog:true,reviews})
+      res.render('user/worker-profile',{dispDetails,user:req.session.user,reviews,userlog:true})
     })
     
   })
@@ -176,7 +176,7 @@ router.get('/previousBookings/:Id',(req, res)=>{
 })
 /* show previous booking details */
 router.get('/showPreviousBooking/:Id',(req, res)=>{
-  userHelpers.findPreviousBookings(req.params.Id).then((sPrevData)=>{
+  userHelpers.findPreviousBookingsWithId(req.params.Id).then((sPrevData)=>{
     console.log(sPrevData)
     res.render('user/previousBookingDetails',{admin:false,workerlog:false,userlog:true,user:req.session.user,sPrevData})
   })

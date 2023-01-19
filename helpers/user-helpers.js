@@ -69,7 +69,7 @@ module.exports = {
         return new Promise(async(resolve,reject)=>{
             console.log("category is"+category)
             console.log("place is"+place)
-            let sortData=await db.get().collection(collection.APPROVED_WORKER_COLLECTION).find({ "category": category,"place": place ,"activeStatus": "Active"}).toArray()
+            let sortData=await db.get().collection(collection.APPROVED_WORKER_COLLECTION).find({ "category": category,"workerPlace": place ,"activeStatus": "Active"}).toArray()
             resolve(sortData)
         })
     },
@@ -202,6 +202,14 @@ module.exports = {
             var prevData =await db.get().collection(collection.COMPLETED_WORK_COLLECTION).find({"userId":preId}).toArray()
             resolve(prevData)
             console.log(preId)
+        })
+    },
+    /*display previous bookings*/
+    findPreviousBookingsWithId:(preIdS)=>{
+        return new Promise(async(resolve,reject)=>{
+            var prevData =await db.get().collection(collection.COMPLETED_WORK_COLLECTION).find({"_id":objectId(preIdS)}).toArray()
+            resolve(prevData)
+            console.log(preIdS)
         })
     }
 }

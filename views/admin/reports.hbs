@@ -3,25 +3,30 @@
       <div class="row mt-3">
       </div>
       <div class="alert alert-success" role="alert">
-  All The completed Bookings Will Be Displayed Here 
+  The Untracked Bookings Will Be Displayed Here 
 </div>
         <table class="table mt-3">
   <thead>
     <tr>
       <th scope="col">Worker Name</th>
+      <th scope="col">Customer Name</th>
       <th scope="col">Category</th>
       <th scope="col">Place</th>
+      <th scope="col">Date</th>
       <th scope="col"></th>
+
     </tr>
   </thead>
   <tbody>
-    {{#each prevData}}
+    {{#each completedWorks}}
     <tr>
- 
+        
       <td>{{this.workerName}}</td>
+      <td>{{this.User_Name}}</td>
       <td>{{this.category}}</td>
       <td>{{this.workerPlace}}</td>
-      <td><a href="/showPreviousBooking/{{this._id}}">View More</a></td>
+      <td>{{this.day}}-{{this.month}}-{{this.year}}</td>
+      <td><a href="/admin/reportDetails/{{this._id}}"><button class="btn btn-succes">View More</button></a></td>
     </tr>
     {{/each}}
   </tbody>

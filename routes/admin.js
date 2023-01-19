@@ -96,5 +96,16 @@ router.get('/admin/worker-edit/:id',(req, res)=>{
   })
 })
 
+router.get('/workReports',(req, res)=>{
+  workerHelper.diplayAllCompletedWorks().then((completedWorks)=>{
+    res.render('admin/reports',{ workerlog: false, admin: true, userlog: false,completedWorks})
+  })
+})
+
+router.get('/reportDetails/:Id',(req, res)=>{
+  workerHelper.diplayAllCompletedWorksWithId(req.params.Id).then((foundWorks)=>{
+    res.render('admin/reportDetails',{ workerlog: false, admin: true, userlog: false,foundWorks})
+  })
+})
 
 module.exports = router;

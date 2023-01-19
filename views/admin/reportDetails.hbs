@@ -2,24 +2,24 @@
     <article class="card">
         <header class="card-header"> My Bookings / Tracking </header>
         <div class="card-body">
-            {{#each sPrevData}}
             
-            <h6>Booking ID: {{this._id}}</h6>
+            
+            <h6>Booking ID: {{foundWorks._id}}</h6>
             <article class="card">
                 <div class="card-body row">
-                    <div class="col"> <strong>Confirmed Date</strong> <br>{{this.day}}-{{this.month}}-{{this.year}}</div>
-                    <div class="col"> <strong>Worker Name</strong> <br> {{this.workerName}} <i class="fa fa-phone"></i>
+                    <div class="col"> <strong>Confirmed Date</strong> <br>{{foundWorks.day}}-{{foundWorks.month}}-{{foundWorks.year}}</div>
+                    <div class="col"> <strong>Worker Name</strong> <br> {{foundWorks.workerName}} <i class="fa fa-phone"></i>
                         </div>
-                    <div class="col"> <strong>Status:</strong> <br> Completed </div>
-                    <div class="col"> <strong>Confirmed Time</strong> <br> {{this.hour}}:{{this.minutes}} </div>
+                    <div class="col"> <strong>Customer Name & Address</strong> <br> {{foundWorks.User_Name}} , {{foundWorks.userAddress}}</div>
+                    <div class="col"> <strong>Confirmed Time</strong> <br> {{foundWorks.hour}}:{{foundWorks.minutes}} </div>
                 </div>
             </article>
             <div class="track">
                 <div class="step active"> <span class="icon">✓<i class="fa fa-check"></i> </span> <span
                         class="text">Booking confirmed</span> </div>
-                <div class="step"> <span class="icon"> {{#if this.userAuth}}✓{{/if}}<i class="fa fa-box"></i> </span> <span class="text">Work Completed</span></div>
+                <div class="step"> <span class="icon"> {{#if foundWorks.userAuth}}✓{{/if}}<i class="fa fa-box"></i> </span> <span class="text">Work Completed</span></div>
             </div>
-            {{/each}}
+         
             <hr>
             <hr>
         </div>
