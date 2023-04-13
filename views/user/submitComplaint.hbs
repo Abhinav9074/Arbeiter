@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Complaint Form</title>
+	
+</head>
+<body>
+	<h1>Submit a Complaint</h1>
+	<form id="complaint-form" action="/complaintSubmission" method="POST">
+		<label for="name">Worker ID</label>
+		<input type="text" id="name" name="workerId" required  readonly value="{{id}}">
+        <input type="hidden" name="userId" value="{{user._id}}">
+		
+		<label for="email">Email:</label>
+		<input type="email" id="email" name="email" required>
+		
+		<label for="complaint">Complaint:</label>
+		<textarea id="complaint" name="complaint" required></textarea>
+		
+		<button type="submit" id="submit-btn">Submit</button>
+	</form>
+
+	
+</body>
+</html>
+<style>
+    * {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: Arial, sans-serif;
+}
+
+h1 {
+	text-align: center;
+	margin-top: 20px;
+}
+
+form {
+	margin: 20px auto;
+	width: 80%;
+	max-width: 600px;
+	background-color: #f2f2f2;
+	padding: 20px;
+	border-radius: 10px;
+}
+
+label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+input,
+textarea {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 20px;
+	border: none;
+	border-radius: 5px;
+}
+
+button {
+	display: block;
+	margin: 0 auto;
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #0062cc;
+}
+
+</style>
+
+

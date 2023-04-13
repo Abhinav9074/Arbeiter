@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Complaints List</title>
+	
+</head>
+<body>
+	<h1>Complaints List</h1>
+
+	<table id="complaints-table">
+		<thead>
+			<tr>
+				<th>User ID</th>
+				<th>Worker ID</th>
+				<th>Complaint</th>
+			</tr>
+			{{#each complaints}}
+			<tr>
+				<td>{{this.userId}}</td>
+				<td>{{this.workerId}}</td>
+				<td>{{this.complaint}}</td>
+			</tr>
+			{{/each}}
+		</thead>
+		
+	</table>
+
+	
+</body>
+</html>
+
+<style>
+    * {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: Arial, sans-serif;
+}
+
+h1 {
+	text-align: center;
+	margin-top: 20px;
+}
+
+table {
+	margin: 20px auto;
+	width: 80%;
+	max-width: 800px;
+	border-collapse: collapse;
+}
+
+th, td {
+	padding: 10px;
+	text-align: left;
+}
+
+th {
+	background-color: #007bff;
+	color: #fff;
+}
+
+tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+tr:hover {
+	background-color: #ddd;
+}
+
+</style>

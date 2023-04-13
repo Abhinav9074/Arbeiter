@@ -108,4 +108,12 @@ router.get('/reportDetails/:Id',(req, res)=>{
   })
 })
 
+/* Complaint Box */
+router.get('/complaintbox',(req, res)=>{
+  
+  userHelpers.viewAllComplaints().then((complaints)=>{
+    res.render('admin/complaint',{ workerlog: false, admin: true, userlog: false , complaints})
+  })
+})
+
 module.exports = router;

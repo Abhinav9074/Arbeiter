@@ -5,5 +5,6 @@ module.exports={
     WORKER_DETAILS_COLLECTION:'worker',
     CONFIRMED_BOOKING_COLLECTION:'bookings',
     USER_REVIEW:'userReview',
-    COMPLETED_WORK_COLLECTION:'completedWorks'
+    COMPLETED_WORK_COLLECTION:'completedWorks',
+    COMPLAINT_COLLECTION:'complaints'
 }

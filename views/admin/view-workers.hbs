@@ -9,6 +9,7 @@
       <th scope="col">Name</th>
       <th scope="col">Address</th>
       <th scope="col">Category</th>
+      <th scope="col">ID</th>
       <th scope="col">Email</th>
       <th scope="col">Phone</th>
       <th>Status</th>
@@ -21,11 +22,11 @@
       <td>{{this.workerName}}</td>
       <td>{{this.workerAddress}}</td>
       <td>{{this.category}}</td>
+      <td>{{this._id}}</td>
       <td>{{this.workerEmail}}</td>
       <td>{{this.workerPhone}}</td>
       <td>{{this.activeStatus}}</td>
       <td><img src="/workerImages/{{this._id}}.jpg" height="50" width="50" alt=""></td>
-      <td><a href="/admin/worker-edit/{{this._id}}" class="btn btn-warning">EDIT</a></td>
       <td><a href="/admin/delete-worker-details/{{this._id}}" class="btn btn-danger" onclick="return confirm('Do you want to delete the Profile of {{this.workerName}}?')">DELETE</a></td>
     </tr>
     {{/each}}

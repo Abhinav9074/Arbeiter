@@ -182,6 +182,21 @@ router.get('/showPreviousBooking/:Id',(req, res)=>{
   })
 })
 
+/* Complaint Submission Page */
+router.get('/complaints/:Id',(req, res)=>{
+  var id=req.params.Id;
+  res.render('user/submitComplaint',{admin:false,workerlog:false,userlog:true,user:req.session.user,id})
+})
+
+
+router.post('/complaintSubmission',(req, res)=>{
+  console.log(req.body)
+  userHelpers.complaintSubmission(req.body).then((complaintInfo)=>{
+    res.redirect('/')
+  })
+})
+
+
 
 
 module.exports = router;

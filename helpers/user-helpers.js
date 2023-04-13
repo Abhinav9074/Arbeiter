@@ -211,5 +211,20 @@ module.exports = {
             resolve(prevData)
             console.log(preIdS)
         })
+    },
+    /* Submit the complaint */
+    complaintSubmission:(complaint)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.COMPLAINT_COLLECTION).insertOne(complaint).then((complaintInfo)=>{
+                resolve(complaintInfo)
+            })
+        })
+    },
+    /* display the complaint */
+    viewAllComplaints:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let complaint=await db.get().collection(collection.COMPLAINT_COLLECTION).find().toArray()
+            resolve(complaint)
+        })
     }
 }

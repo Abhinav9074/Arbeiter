@@ -33,6 +33,14 @@
 <section>
     <form action="/reviewSubmit/{{trackData._id}}" method="post">
     <h5>Write a review To appreciate our Worker</h5>
+    <label for="category" class="form-label">Rating</label>
+                        <select class="form-control" name="rating" id="category">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            </select>
     <input class="box" type="textarea" name="review"><br>
     <button class="btn btn-success">Submit</button>
     <input  type="hidden" value="{{trackData.User_Name}}" name="userName"><br>
